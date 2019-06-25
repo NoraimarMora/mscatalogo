@@ -79,11 +79,13 @@ class ProductoController {
         const idTienda = request.params.idTienda
 
         try {
-            let tienda = await Tienda.findOrFail(idTienda)
+            let productos = await Producto.query()
+                .where('tienda_id', idTienda)
+                .fetch()
 
             return response.json({
                 status: 200,
-                productos: await tienda.productos().fetch()
+                productos: productos
             })
         } catch(err) {
             if (err.name === 'ModelNotFoundException') {
@@ -99,11 +101,14 @@ class ProductoController {
         const idTienda = request.params.idTienda
 
         try {
-            let tienda = await Tienda.findOrFail(idTienda)
+            let productos = await Producto.query()
+                .where('activo', 1)
+                .where('tienda_id', idTienda)
+                .fetch()
 
             return response.json({
                 status: 200,
-                productos: await tienda.productos().where('activo', 1).fetch()
+                productos: productos
             })
         } catch(err) {
             if (err.name === 'ModelNotFoundException') {
@@ -116,7 +121,27 @@ class ProductoController {
     }
 
     async getProductsByCategoryAndStore({ request, response }) {
-        
+        const idTienda = request.params.idTienda
+        const idCategoria = request.params.idCategoria
+
+        try {
+            let categoria = await Categoria.findOrFail(idCategoria)
+
+            return response.json({
+                status: 200,
+                productos: await categoria.productos()
+                    .where('activo', 1)
+                    .where('tienda_id', idTienda)
+                    .fetch()
+            })
+        } catch (err) {
+            if (err.name === 'ModelNotFoundException') {
+                return response.json({
+                    status: 404,
+                    message: "Not found"
+                })
+            }
+        }
     }
 
     async store({ request, response }) {

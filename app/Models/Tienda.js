@@ -10,7 +10,7 @@ class Tienda extends Model {
     }
 
     productos () {
-        return this.belongsToMany('App/Models/Producto')
+        return this.hasMany('App/Models/Producto')
     }
 }
 

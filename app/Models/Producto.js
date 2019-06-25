@@ -5,8 +5,8 @@ const Model = use('Model')
 
 class Producto extends Model {
 
-    tiendas () {
-        return this.belongsToMany('App/Models/Tienda')
+    tienda () {
+        return this.belongsTo('App/Models/Tienda')
     }
 
     categorias () {
