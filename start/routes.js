@@ -18,6 +18,10 @@ const Route = use('Route')
 
 Route.get('/', () => 'Microservicio Catalogo')
 
+Route.get('/healthz', (response) => {
+    response.send('Microservicio Catalogo')
+})
+
 Route.group(() => {
     Route.get('/', 'ProductoController.getAll')
     Route.get('/:id', 'ProductoController.getById')
