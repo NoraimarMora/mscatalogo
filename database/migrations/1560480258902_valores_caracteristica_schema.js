@@ -11,7 +11,7 @@ class ValoresCaracteristicaSchema extends Schema {
       table.integer('caracteristica_id').unsigned()
       table.timestamps()
 
-      table.foreign('caracteristica_id').references('id').inTable('caracteristicas').onDelete(CASCADE)
+      table.foreign('caracteristica_id').references('id').inTable('caracteristicas').onDelete('CASCADE')
     })
   }
 

@@ -17,7 +17,7 @@ class ProductosSchema extends Schema {
       table.boolean('activo')
       table.timestamps()
 
-      table.foreign('tienda_id').references('id').inTable('tiendas')
+      table.foreign('tienda_id').references('id').inTable('tiendas').onDelete('CASCADE')
     })
   }
 

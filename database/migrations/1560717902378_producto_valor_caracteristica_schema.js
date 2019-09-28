@@ -12,8 +12,8 @@ class ProductoValorCaracteristicaSchema extends Schema {
       table.double('impacto').defaultTo(0)
       table.timestamps()
 
-      table.foreign('valor_caracteristica_id').references('id').inTable('valores_caracteristicas').onDelete(CASCADE)
-      table.foreign('producto_id').references('id').inTable('productos').onDelete(CASCADE)
+      table.foreign('valor_caracteristica_id').references('id').inTable('valores_caracteristicas').onDelete('CASCADE')
+      table.foreign('producto_id').references('id').inTable('productos').onDelete('CASCADE')
     })
   }
 

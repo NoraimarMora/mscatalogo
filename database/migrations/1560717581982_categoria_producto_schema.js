@@ -11,8 +11,8 @@ class CategoriaProductoSchema extends Schema {
       table.integer('producto_id').unsigned()
       table.timestamps()
 
-      table.foreign('categoria_id').references('id').inTable('categorias').onDelete(CASCADE)
-      table.foreign('producto_id').references('id').inTable('productos').onDelete(CASCADE)
+      table.foreign('categoria_id').references('id').inTable('categorias').onDelete('CASCADE')
+      table.foreign('producto_id').references('id').inTable('productos').onDelete('CASCADE')
     })
   }
 
