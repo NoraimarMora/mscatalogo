@@ -13,7 +13,7 @@
     "adonis-app"
   ],
   "author": "Noraimar Mora",
-  "license": "UNLICENSED",
+  "license": "ISC",
   "private": true,
   "dependencies": {
     "@adonisjs/ace": "^5.0.8",

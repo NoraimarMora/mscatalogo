@@ -36,7 +36,7 @@ class CaracteristicaController {
         const caracteristica = request.body
 
         let newCaracteristica = new Caracteristica()
-        newCaracteristica.nombre = caracteristica.nombre
+        newCaracteristica.name = caracteristica.name
 
         await newCaracteristica.save()
 
@@ -53,7 +53,7 @@ class CaracteristicaController {
         try {
             let caracteristica = await Caracteristica.findOrFail(idCaracteristica)
 
-            caracteristica.nombre = caracteristicaU.nombre
+            caracteristica.name = caracteristicaU.name
 
             await caracteristica.save()
 

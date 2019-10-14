@@ -15,11 +15,17 @@
 
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
+const Database = use('Database')
 
 Route.get('/', () => 'Microservicio Catalogo')
 
-Route.get('/healthz', (response) => {
+Route.get('/liveness', ({ response }) => {
     response.send('Microservicio Catalogo')
+})
+
+Route.get('/readiness', async ({ response }) => {
+    var result = await Database.select('*').from('adonis_schema')
+    response.send(result)
 })
 
 Route.group(() => {
@@ -39,8 +45,8 @@ Route.group(() => {
     Route.get('/', 'CategoriaController.getAll')
     Route.get('/active', 'CategoriaController.getActive')
     Route.get('/:id', 'CategoriaController.getById')
-    Route.get('/:idPadre/sub', 'CategoriaController.getSubcategories')
-    Route.get('/:idPadre/sub/active', 'CategoriaController.getActiveSubcategories')
+    Route.get('/:idParent/sub', 'CategoriaController.getSubcategories')
+    Route.get('/:idParent/sub/active', 'CategoriaController.getActiveSubcategories')
     Route.post('/', 'CategoriaController.store')
     Route.put('/:id', 'CategoriaController.update')
     Route.delete('/:id', 'CategoriaController.delete')

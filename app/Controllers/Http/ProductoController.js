@@ -63,7 +63,7 @@ class ProductoController {
 
             return response.json({
                 status: 200,
-                productos: await categoria.productos().where('activo', 1).fetch()
+                productos: await categoria.productos().where('active', 1).fetch()
             })
         } catch(err) {
             if (err.name === 'ModelNotFoundException') {
@@ -80,7 +80,7 @@ class ProductoController {
 
         try {
             let productos = await Producto.query()
-                .where('tienda_id', idTienda)
+                .where('store_id', idTienda)
                 .fetch()
 
             return response.json({
@@ -102,8 +102,8 @@ class ProductoController {
 
         try {
             let productos = await Producto.query()
-                .where('activo', 1)
-                .where('tienda_id', idTienda)
+                .where('active', 1)
+                .where('store_id', idTienda)
                 .fetch()
 
             return response.json({
@@ -130,8 +130,8 @@ class ProductoController {
             return response.json({
                 status: 200,
                 productos: await categoria.productos()
-                    .where('activo', 1)
-                    .where('tienda_id', idTienda)
+                    .where('active', 1)
+                    .where('store_id', idTienda)
                     .fetch()
             })
         } catch (err) {
@@ -148,13 +148,13 @@ class ProductoController {
         const producto = request.body
 
         let newProducto = new Producto()
-        newProducto.nombre = producto.nombre
-        newProducto.referencia = producto.referencia
-        newProducto.precio = producto.precio
-        newProducto.descripcion = producto.descripcion
+        newProducto.name = producto.name
+        newProducto.reference = producto.reference
+        newProducto.price = producto.price
+        newProducto.description = producto.description
         newProducto.image_url = producto.image_url
-        newProducto.personalizable = producto.personalizable
-        newProducto.activo = producto.activo
+        newProducto.customizable = producto.customizable
+        newProducto.active = producto.active
 
         await newProducto.save()
 
@@ -171,13 +171,13 @@ class ProductoController {
         try {
             let producto = await Producto.findOrFail(idProducto)
 
-            producto.nombre = productoU.nombre
-            producto.referencia = productoU.referencia
-            producto.precio = productoU.precio
-            producto.descripcion = productoU.descripcion
+            producto.name = productoU.name
+            producto.reference = productoU.reference
+            producto.price = productoU.price
+            producto.description = productoU.description
             producto.image_url = productoU.image_url
-            producto.personalizable = productoU.personalizable
-            producto.activo = productoU.activo
+            producto.customizable = productoU.customizable
+            producto.active = productoU.active
 
             await producto.save()
 

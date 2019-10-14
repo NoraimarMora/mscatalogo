@@ -7,12 +7,12 @@ class CategoriasSchema extends Schema {
   up () {
     this.create('categorias', (table) => {
       table.increments('id')
-      table.string('nombre')
-      table.string('descripcion')
+      table.string('name')
+      table.string('description')
       table.string('banner_url')
-      table.string('padre').defaultTo(0)
-      table.integer('posicion')
-      table.boolean('activo')
+      table.string('parent').defaultTo(0)
+      table.integer('position')
+      table.boolean('active')
       table.timestamps()
     })
   }

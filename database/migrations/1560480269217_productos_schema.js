@@ -7,17 +7,17 @@ class ProductosSchema extends Schema {
   up () {
     this.create('productos', (table) => {
       table.increments('id')
-      table.string('nombre')
-      table.string('referencia')
-      table.double('precio')
-      table.text('descripcion')
+      table.string('name')
+      table.string('reference')
+      table.double('price')
+      table.text('description')
       table.string('imagen_url')
-      table.boolean('personalizable')
-      table.integer('tienda_id').unsigned()
-      table.boolean('activo')
+      table.boolean('customizable')
+      table.integer('store_id').unsigned()
+      table.boolean('active')
       table.timestamps()
 
-      table.foreign('tienda_id').references('id').inTable('tiendas').onDelete('CASCADE')
+      table.foreign('store_id').references('id').inTable('tiendas').onDelete('CASCADE')
     })
   }
 

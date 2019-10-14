@@ -16,7 +16,7 @@ class Producto extends Model {
     caracteristicas () {
         return this.belongsToMany('App/Models/ValorCaracteristica')
             .pivotTable('product_valor_caracteristica')
-            .withPivot(['impacto'])
+            .withPivot(['impact'])
     }
 }
 

@@ -15,7 +15,7 @@ class CategoriaController {
 
     async getActive({ response }) {
         let categorias = await Categoria.query()
-            .where('activo', 1)
+            .where('active', 1)
             .fetch()
 
         return response.json({
@@ -45,11 +45,11 @@ class CategoriaController {
     }
 
     async getSubcategories({ request, response }){
-        const idPadre = request.params.idPadre
+        const idParent = request.params.idParent
 
         try{
             let subcategorias = await Categoria.query()
-                .where('padre', idPadre)
+                .where('parent', idParent)
                 .fetch()
 
             return response.json({
@@ -67,12 +67,12 @@ class CategoriaController {
     }
 
     async getActiveSubcategories({ request, response }){
-        const idPadre = request.params.idPadre
+        const idParent = request.params.idParent
 
         try{
             let subcategorias = await Categoria.query()
-                .where('padre', idPadre)
-                .where('activo', 1)
+                .where('parent', idParent)
+                .where('active', 1)
                 .fetch()
 
             return response.json({
@@ -91,23 +91,23 @@ class CategoriaController {
 
     async store({ request, response }) {
         const categoria = request.body
-        let posicion = 1
-        let result = await Database.select('posicion')
+        let position = 1
+        let result = await Database.select('position')
             .from('categorias')
-            .where('padre', categoria.padre)
+            .where('parent', categoria.parent)
             .orderBy('id', 'desc')
             .limit(1)
         
-        if(typeof result[0].posicion != 'undefined')
-            posicion = result[0].posicion + 1
+        if(typeof result[0].position != 'undefined')
+            position = result[0].position + 1
 
         let newCategoria = new Categoria()
-        newCategoria.nombre = categoria.nombre
-        newCategoria.descripcion = categoria.descripcion
+        newCategoria.name = categoria.name
+        newCategoria.description = categoria.description
         newCategoria.banner_url = categoria.banner_url
-        newCategoria.padre = categoria.padre
-        newCategoria.posicion = posicion
-        newCategoria.activo = categoria.activo
+        newCategoria.parent = categoria.parent
+        newCategoria.position = position
+        newCategoria.active = categoria.active
 
         await newCategoria.save()
 
@@ -124,11 +124,11 @@ class CategoriaController {
         try {
             let categoria = await Categoria.findOrFail(idCategoria)
 
-            categoria.nombre = categoriaU.nombre
-            categoria.descripcion = categoriaU.descripcion
+            categoria.name = categoriaU.name
+            categoria.description = categoriaU.description
             categoria.banner_url = categoriaU.banner_url
-            categoria.padre = categoriaU.padre
-            categoria.activo = categoriaU.activo
+            categoria.parent = categoriaU.parent
+            categoria.active = categoriaU.active
 
             await categoria.save()
 

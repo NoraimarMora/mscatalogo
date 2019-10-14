@@ -37,7 +37,7 @@ class ValorCaracteristicaController {
 
         try{
             let valoresC = await ValorCaracteristica.query()
-                .where('caracteristica_id', idCaracteristica)
+                .where('feature_id', idCaracteristica)
                 .fetch()
 
             return response.json({
@@ -58,8 +58,8 @@ class ValorCaracteristicaController {
         const valorC = request.body
 
         let newValorC = new ValorCaracteristica()
-        newValorC.nombre = valorC.nombre
-        newValorC.caracteristica_id = valorC.caracteristica_id
+        newValorC.name = valorC.name
+        newValorC.feature_id = valorC.feature_id
 
         await newValorC.save()
 
@@ -76,8 +76,8 @@ class ValorCaracteristicaController {
         try {
             let valorC = await ValorCaracteristica.findOrFail(idValorC)
 
-            valorC.nombre = valorCU.nombre
-            valorC.caracteristica_id = valorCU.caracteristica_id
+            valorC.name = valorCU.name
+            valorC.feature_id = valorCU.feature_id
 
             await valorC.save()
 

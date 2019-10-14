@@ -7,7 +7,7 @@ class TiendasSchema extends Schema {
   up () {
     this.create('tiendas', (table) => {
       table.integer('id').unsigned().primary('id')
-      table.string('nombre')
+      table.string('name')
       table.timestamps()
     })
   }

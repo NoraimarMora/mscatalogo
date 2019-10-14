@@ -7,7 +7,7 @@ class CaracteristicasSchema extends Schema {
   up () {
     this.create('caracteristicas', (table) => {
       table.increments('id')
-      table.string('nombre')
+      table.string('name')
       table.timestamps()
     })
   }

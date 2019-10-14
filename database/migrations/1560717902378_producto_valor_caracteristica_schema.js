@@ -7,13 +7,13 @@ class ProductoValorCaracteristicaSchema extends Schema {
   up () {
     this.create('producto_valor_caracteristica', (table) => {
       table.increments('id')
-      table.integer('valor_caracteristica_id').unsigned()
-      table.integer('producto_id').unsigned()
-      table.double('impacto').defaultTo(0)
+      table.integer('feature_value_id').unsigned()
+      table.integer('product_id').unsigned()
+      table.double('impact').defaultTo(0)
       table.timestamps()
 
-      table.foreign('valor_caracteristica_id').references('id').inTable('valores_caracteristicas').onDelete('CASCADE')
-      table.foreign('producto_id').references('id').inTable('productos').onDelete('CASCADE')
+      table.foreign('feature_value_id').references('id').inTable('valores_caracteristicas').onDelete('CASCADE')
+      table.foreign('product_id').references('id').inTable('productos').onDelete('CASCADE')
     })
   }
 
