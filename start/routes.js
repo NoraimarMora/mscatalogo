@@ -36,6 +36,7 @@ Route.group(() => {
     Route.get('/tienda/:idTienda', 'ProductoController.getProductsByStore')
     Route.get('/tienda/:idTienda/active', 'ProductoController.getActiveProductsByStore')
     Route.get('/:idCategoria/:idTienda', 'ProductoController.getProductsByCategoryAndStore')
+    // Route.get('/marca/:idMarca', 'ProductoController.getProductsByBrand')
     Route.post('/', 'ProductoController.store')
     Route.put('/:id', 'ProductoController.update')
     Route.delete('/:id', 'ProductoController.delete')
@@ -68,3 +69,20 @@ Route.group(() => {
     Route.put('/:id', 'ValorCaracteristicaController.update')
     Route.delete('/:id', 'ValorCaracteristicaController.delete')
 }).prefix('valores')
+
+Route.group(() => {
+    Route.get('/', 'MarcaController.getAll')
+    Route.get('/:id', 'MarcaController.getById')
+    Route.get('/:idMarca/productos', 'ProductoController.getProductsByBrand')
+    Route.post('/', 'MarcaController.store')
+    Route.put('/:id', 'MarcaController.update')
+    Route.delete('/:id', 'MarcaController.delete')
+}).prefix('marcas')
+
+Route.group(() => {
+    Route.get('/', 'TiendaController.getAll')
+    Route.get('/:id', 'TiendaController.getById')
+    Route.post('/', 'TiendaController.store')
+    Route.put('/:id', 'TiendaController.update')
+    Route.delete('/:id', 'TiendaController.delete')
+}).prefix('tiendas')

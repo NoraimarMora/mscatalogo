@@ -4,11 +4,30 @@ const ValorCaracteristica = use('App/Models/ValorCaracteristica')
 
 class ValorCaracteristicaController {
     async getAll({ response }) {
-        let valoresC = await ValorCaracteristica.all()
+        let valoresC = await ValorCaracteristica.query()
+            .with('caracteristica')
+            .fetch()
+        let valores = []
+
+        valoresC.rows.map((valor) => {
+            let caracteristica = valor.getRelated('caracteristica')
+
+            valores.push({
+                id: valor.id,
+                name: valor.name,
+                feature_id: valor.caracteristica_id,
+                feature: {
+                    id: caracteristica.id,
+                    name: caracteristica.name,
+                    date_created: caracteristica.created_at
+                },
+                date_created: valor.created_at
+            })
+        })
 
         return response.json({
             status: 200,
-            valoresC: valoresC
+            feature_values: valores
         })
     } 
 
@@ -16,11 +35,25 @@ class ValorCaracteristicaController {
         const idValorC = request.params.id
 
         try{
-            let valorC = await ValorCaracteristica.findOrFail(idValorC)
+            let resp = await ValorCaracteristica.findOrFail(idValorC)
+            await resp.load('caracteristica')
+            let caracteristica = resp.getRelated('caracteristica')
+
+            let valorC = {
+                id: resp.id,
+                name: resp.name,
+                feature_id: resp.caracteristica_id,
+                feature: {
+                    id: caracteristica.id,
+                    name: caracteristica.name,
+                    date_created: caracteristica.created_at
+                },
+                date_created: resp.created_at
+            }
 
             return response.json({
                 status: 200,
-                valorC: valorC
+                feature_value: valorC
             })
         } catch(err) {
             if (err.name === 'ModelNotFoundException') {
@@ -37,12 +70,30 @@ class ValorCaracteristicaController {
 
         try{
             let valoresC = await ValorCaracteristica.query()
-                .where('feature_id', idCaracteristica)
+                .where('caracteristica_id', idCaracteristica)
                 .fetch()
+            let valores = []
+
+            valoresC.rows.map((valor) => {
+                await valor.load('caracteristica')
+                let caracteristica = valor.getRelated('caracteristica')
+        
+                valores.push({
+                    id: valor.id,
+                    name: valor.name,
+                    feature_id: valor.caracteristica_id,
+                    feature: {
+                        id: caracteristica.id,
+                        name: caracteristica.name,
+                        date_created: caracteristica.created_at
+                    },
+                    date_created: valor.created_at
+                })
+            })
 
             return response.json({
                 status: 200,
-                valoresC: valoresC
+                feature_values: valores
             })
         } catch(err) {
             if (err.name === 'ModelNotFoundException') {
@@ -59,13 +110,20 @@ class ValorCaracteristicaController {
 
         let newValorC = new ValorCaracteristica()
         newValorC.name = valorC.name
-        newValorC.feature_id = valorC.feature_id
+        newValorC.caracteristica_id = valorC.caracteristica_id
 
         await newValorC.save()
 
+        let valor = {
+            id: newValorC.id,
+            name: newValorC.name,
+            feature_id: newValorC.caracteristica_id,
+            date_created: newValorC.created_at
+        }
+
         return response.json({
             status: 200,
-            valorC: newValorC
+            feature_value: valor
         })
     }
 
@@ -77,13 +135,20 @@ class ValorCaracteristicaController {
             let valorC = await ValorCaracteristica.findOrFail(idValorC)
 
             valorC.name = valorCU.name
-            valorC.feature_id = valorCU.feature_id
+            valorC.caracteristica_id = valorCU.caracteristica_id
 
             await valorC.save()
 
+            let valor = {
+                id: valorC.id,
+                name: valorC.name,
+                feature_id: valorC.caracteristica_id,
+                date_created: valorC.created_at
+            }
+
             return response.json({
                 status: 200,
-                valorC: valorC
+                valorC: valor
             })
         } catch (err) {
             if (err.name === 'ModelNotFoundException') {
@@ -101,11 +166,18 @@ class ValorCaracteristicaController {
         try {
             let valorC = await ValorCaracteristica.findOrFail(idValorC)
 
+            let valor = {
+                id: valorC.id,
+                name: valorC.name,
+                feature_id: valorC.caracteristica_id,
+                date_created: valorC.created_at
+            }
+
             await valorC.delete()
 
             return response.json({
                 status: 200,
-                message: "Valor de Caracteristica eliminado"
+                feature_value: valor
             })
         } catch (err) {
             if (err.name === 'ModelNotFoundException') {

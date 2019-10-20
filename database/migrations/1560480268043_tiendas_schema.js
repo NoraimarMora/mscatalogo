@@ -8,7 +8,10 @@ class TiendasSchema extends Schema {
     this.create('tiendas', (table) => {
       table.integer('id').unsigned().primary('id')
       table.string('name')
+      table.integer('marca_id').unsigned()
       table.timestamps()
+
+      table.foreign('marca_id').references('id').inTable('marcas').onDelete('CASCADE')
     })
   }
 

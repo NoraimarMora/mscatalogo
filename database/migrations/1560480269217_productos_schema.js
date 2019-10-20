@@ -13,11 +13,11 @@ class ProductosSchema extends Schema {
       table.text('description')
       table.string('imagen_url')
       table.boolean('customizable')
-      table.integer('store_id').unsigned()
+      table.integer('tienda_id').unsigned()
       table.boolean('active')
       table.timestamps()
 
-      table.foreign('store_id').references('id').inTable('tiendas').onDelete('CASCADE')
+      table.foreign('tienda_id').references('id').inTable('tiendas').onDelete('CASCADE')
     })
   }
 

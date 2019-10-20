@@ -5,22 +5,50 @@ const Database = use('Database')
 
 class CategoriaController {
     async getAll({ response }) {
-        let categorias = await Categoria.all()
+        let resp = await Categoria.all()
+        let categorias = []
+
+        resp.rows.map((categoria) => {
+            categorias.push({
+                id: categoria.id,
+                name: categoria.name,
+                description: categoria.description,
+                banner_url: categoria.banner_url,
+                parent: categoria.parent,
+                position: categoria.parent,
+                active: categoria.active,
+                date_created: categoria.created_at
+            })
+        })
 
         return response.json({
             status: 200,
-            categorias: categorias
+            categories: categorias
         })
     } 
 
     async getActive({ response }) {
-        let categorias = await Categoria.query()
+        let resp = await Categoria.query()
             .where('active', 1)
             .fetch()
+        let categorias = []
 
+        resp.rows.map((categoria) => {
+            categorias.push({
+                id: categoria.id,
+                name: categoria.name,
+                description: categoria.description,
+                banner_url: categoria.banner_url,
+                parent: categoria.parent,
+                position: categoria.parent,
+                active: categoria.active,
+                date_created: categoria.created_at
+            })
+        })
+        
         return response.json({
             status: 200,
-            categorias: categorias
+            categories: categorias
         })
     }
 
@@ -28,11 +56,22 @@ class CategoriaController {
         const idCategoria = request.params.id
 
         try{
-            let categoria = await Categoria.findOrFail(idCategoria)
+            let resp = await Categoria.findOrFail(idCategoria)
+
+            let categoria = {
+                id: resp.id,
+                name: resp.name,
+                description: resp.description,
+                banner_url: resp.banner_url,
+                parent: resp.parent,
+                position: resp.parent,
+                active: resp.active,
+                date_created: resp.created_at
+            }
 
             return response.json({
                 status: 200,
-                categoria: categoria
+                category: categoria
             })
         } catch(err) {
             if (err.name === 'ModelNotFoundException') {
@@ -48,13 +87,27 @@ class CategoriaController {
         const idParent = request.params.idParent
 
         try{
-            let subcategorias = await Categoria.query()
+            let resp = await Categoria.query()
                 .where('parent', idParent)
                 .fetch()
+            let subcategorias = []
+
+            resp.rows.map((categoria) => {
+                subcategorias.push({
+                    id: categoria.id,
+                    name: categoria.name,
+                    description: categoria.description,
+                    banner_url: categoria.banner_url,
+                    parent: categoria.parent,
+                    position: categoria.parent,
+                    active: categoria.active,
+                    date_created: categoria.created_at
+                })
+            })
 
             return response.json({
                 status: 200,
-                categorias: subcategorias
+                categories: subcategorias
             })
         } catch(err) {
             if (err.name === 'ModelNotFoundException') {
@@ -70,14 +123,28 @@ class CategoriaController {
         const idParent = request.params.idParent
 
         try{
-            let subcategorias = await Categoria.query()
+            let resp = await Categoria.query()
                 .where('parent', idParent)
                 .where('active', 1)
                 .fetch()
+            let subcategorias = []
+
+            resp.rows.map((categoria) => {
+                subcategorias.push({
+                    id: categoria.id,
+                    name: categoria.name,
+                    description: categoria.description,
+                    banner_url: categoria.banner_url,
+                    parent: categoria.parent,
+                    position: categoria.parent,
+                    active: categoria.active,
+                    date_created: categoria.created_at
+                })
+            })
 
             return response.json({
                 status: 200,
-                categorias: subcategorias
+                categories: subcategorias
             })
         } catch(err) {
             if (err.name === 'ModelNotFoundException') {
@@ -90,30 +157,43 @@ class CategoriaController {
     }
 
     async store({ request, response }) {
-        const categoria = request.body
+        const body = request.body
         let position = 1
         let result = await Database.select('position')
             .from('categorias')
-            .where('parent', categoria.parent)
+            .where('parent', body.parent)
             .orderBy('id', 'desc')
             .limit(1)
         
-        if(typeof result[0].position != 'undefined')
-            position = result[0].position + 1
-
+        if (result.lenght > 0) {
+            console.log(result)
+            if(result[0].position != undefined)
+                position = result[0].position + 1
+        }
         let newCategoria = new Categoria()
-        newCategoria.name = categoria.name
-        newCategoria.description = categoria.description
-        newCategoria.banner_url = categoria.banner_url
-        newCategoria.parent = categoria.parent
+        newCategoria.name = body.name
+        newCategoria.description = body.description
+        newCategoria.banner_url = body.banner_url
+        newCategoria.parent = body.parent
         newCategoria.position = position
-        newCategoria.active = categoria.active
+        newCategoria.active = body.active
 
         await newCategoria.save()
 
+        let categoria = {
+            id: newCategoria.id,
+            name: newCategoria.name,
+            description: newCategoria.description,
+            banner_url: newCategoria.banner_url,
+            parent: newCategoria.parent,
+            position: newCategoria.parent,
+            active: newCategoria.active,
+            date_created: newCategoria.created_at
+        }
+        
         return response.json({
             status: 200,
-            categoria: newCategoria
+            category: categoria
         })
     }
 
@@ -122,19 +202,30 @@ class CategoriaController {
         const categoriaU = request.body
 
         try {
-            let categoria = await Categoria.findOrFail(idCategoria)
+            let update = await Categoria.findOrFail(idCategoria)
 
-            categoria.name = categoriaU.name
-            categoria.description = categoriaU.description
-            categoria.banner_url = categoriaU.banner_url
-            categoria.parent = categoriaU.parent
-            categoria.active = categoriaU.active
+            update.name = categoriaU.name
+            update.description = categoriaU.description
+            update.banner_url = categoriaU.banner_url
+            update.parent = categoriaU.parent
+            update.active = categoriaU.active
 
-            await categoria.save()
+            await update.save()
+
+            let categoria = {
+                id: update.id,
+                name: update.name,
+                description: update.description,
+                banner_url: update.banner_url,
+                parent: update.parent,
+                position: update.parent,
+                active: update.active,
+                date_created: update.created_at
+            }
 
             return response.json({
                 status: 200,
-                categoria: categoria
+                category: categoria
             })
         } catch (err) {
             if (err.name === 'ModelNotFoundException') {
@@ -150,13 +241,24 @@ class CategoriaController {
         const idCategoria = request.params.id
 
         try {
-            let categoria = await Categoria.findOrFail(idCategoria)
+            let resp = await Categoria.findOrFail(idCategoria)
 
-            await categoria.delete()
+            let categoria = {
+                id: resp.id,
+                name: resp.name,
+                description: resp.description,
+                banner_url: resp.banner_url,
+                parent: resp.parent,
+                position: resp.parent,
+                active: resp.active,
+                date_created: resp.created_at
+            }
+
+            await resp.delete()
 
             return response.json({
                 status: 200,
-                message: "Categoria eliminada"
+                category: categoria
             })
         } catch (err) {
             if (err.name === 'ModelNotFoundException') {

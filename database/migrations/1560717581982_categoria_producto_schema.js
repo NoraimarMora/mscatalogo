@@ -7,12 +7,12 @@ class CategoriaProductoSchema extends Schema {
   up () {
     this.create('categoria_producto', (table) => {
       table.increments('id')
-      table.integer('category_id').unsigned()
-      table.integer('product_id').unsigned()
+      table.integer('categoria_id').unsigned()
+      table.integer('producto_id').unsigned()
       table.timestamps()
 
-      table.foreign('category_id').references('id').inTable('categorias').onDelete('CASCADE')
-      table.foreign('product_id').references('id').inTable('productos').onDelete('CASCADE')
+      table.foreign('categoria_id').references('id').inTable('categorias').onDelete('CASCADE')
+      table.foreign('producto_id').references('id').inTable('productos').onDelete('CASCADE')
     })
   }
 

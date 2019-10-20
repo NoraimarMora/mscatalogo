@@ -1,33 +1,33 @@
 'use strict'
 
-const Caracteristica = use('App/Models/Caracteristica')
+const Marca = use('App/Models/Marca')
 
-class CaracteristicaController {
+class MarcaController {
     async getAll({ response }) {
-        let resp = await Caracteristica.all()
-        let caracteristicas = []
-
-        resp.rows.map((caracteristica) => {
-            caracteristicas.push({
-                id: caracteristica.id,
-                name: caracteristica.name,
-                date_created: caracteristica.created_at
+        let resp = await Marca.all()
+        let marcas = []
+        
+        resp.rows.map((marca) => {
+            marcas.push({
+                id: marca.id,
+                name: marca.name,
+                date_created: marca.created_at
             })
         })
 
         return response.json({
             status: 200,
-            features: caracteristicas
+            brands: marcas
         })
     } 
 
     async getById({ request, response }){
-        const idCaracteristica = request.params.id
+        const idMarca = request.params.id
 
         try{
-            let resp = await Caracteristica.findOrFail(idCaracteristica)
+            let resp = await Marca.findOrFail(idMarca)
 
-            let caracteristica = {
+            let marca = {
                 id: resp.id,
                 name: resp.name,
                 date_created: resp.created_at
@@ -35,7 +35,7 @@ class CaracteristicaController {
 
             return response.json({
                 status: 200,
-                feature: caracteristica
+                brand: marca
             })
         } catch(err) {
             if (err.name === 'ModelNotFoundException') {
@@ -50,35 +50,36 @@ class CaracteristicaController {
     async store({ request, response }) {
         const body = request.body
 
-        let newCaracteristica = new Caracteristica()
-        newCaracteristica.name = body.name
+        let newMarca = new Marca()
+        newMarca.id = body.id
+        newMarca.name = body.name
 
-        await newCaracteristica.save()
+        await newMarca.save()
 
-        let caracteristica = {
-            id: newCaracteristica.id,
-            name: newCaracteristica.name,
-            date_created: newCaracteristica.created_at
+        let marca = {
+            id: newMarca.id,
+            name: newMarca.name,
+            date_created: newMarca.created_at
         }
 
         return response.json({
             status: 200,
-            feature: caracteristica
+            brand: marca
         })
     }
 
     async update({ request, response }) {
-        const idCaracteristica = request.params.id
-        const caracteristicaU = request.body
+        const idMarca = request.params.id
+        const marcaU = request.body
 
         try {
-            let update = await Caracteristica.findOrFail(idCaracteristica)
+            let update = await Marca.findOrFail(idMarca)
 
-            update.name = caracteristicaU.name
+            update.name = marcaU.name
 
             await update.save()
 
-            let caracteristica = {
+            let marca = {
                 id: update.id,
                 name: update.name,
                 date_created: update.created_at
@@ -86,7 +87,7 @@ class CaracteristicaController {
 
             return response.json({
                 status: 200,
-                feature: caracteristica
+                brand: marca
             })
         } catch (err) {
             if (err.name === 'ModelNotFoundException') {
@@ -99,12 +100,12 @@ class CaracteristicaController {
     }
 
     async delete({ request, response }) {
-        const idCaracteristica = request.params.id
+        const idMarca = request.params.id
 
         try {
-            let resp = await Caracteristica.findOrFail(idCaracteristica)
+            let resp = await Marca.findOrFail(idMarca)
 
-            let caracteristica = {
+            let marca = {
                 id: resp.id,
                 name: resp.name,
                 date_created: resp.created_at
@@ -114,7 +115,7 @@ class CaracteristicaController {
 
             return response.json({
                 status: 200,
-                feature: caracteristica
+                brand: marca
             })
         } catch (err) {
             if (err.name === 'ModelNotFoundException') {
@@ -127,4 +128,4 @@ class CaracteristicaController {
     }
 }
 
-module.exports = CaracteristicaController
+module.exports = MarcaController

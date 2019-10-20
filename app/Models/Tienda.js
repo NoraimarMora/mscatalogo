@@ -12,6 +12,10 @@ class Tienda extends Model {
     productos () {
         return this.hasMany('App/Models/Producto')
     }
+
+    marca () {
+        return this.belongsTo('App/Models/Marca')
+    }
 }
 
 module.exports = Tienda
