@@ -121,6 +121,8 @@ class ValorCaracteristicaController {
             date_created: newValorC.created_at
         }
 
+        // TODO: Publish `product-characteristic-created`
+
         return response.json({
             status: 200,
             feature_value: valor
@@ -145,6 +147,8 @@ class ValorCaracteristicaController {
                 feature_id: valorC.caracteristica_id,
                 date_created: valorC.created_at
             }
+
+            // TODO: Publish `product-characteristic-updated`
 
             return response.json({
                 status: 200,
@@ -174,6 +178,8 @@ class ValorCaracteristicaController {
             }
 
             await valorC.delete()
+
+            // TODO: Publish `product-characteristic-deleted`
 
             return response.json({
                 status: 200,

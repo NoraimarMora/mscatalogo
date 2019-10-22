@@ -3,6 +3,7 @@
 const Producto = use('App/Models/Producto')
 const Marca = use('App/Models/Marca')
 const Categoria = use('App/Models/Categoria')
+const { notify } = require('../../../broker/index.js');
 
 class ProductoController {
 
@@ -601,6 +602,8 @@ class ProductoController {
             date_created: newProducto.created_ad
         }
 
+        notify('product-created', { product: producto });
+
         return response.json({
             status: 200,
             product: producto
@@ -638,6 +641,8 @@ class ProductoController {
                 date_created: update.created_ad
             }
 
+            notify('product-updated', { product: producto });
+
             return response.json({
                 status: 200,
                 product: producto
@@ -672,6 +677,8 @@ class ProductoController {
             }
 
             await resp.delete()
+
+            notify('product-deleted', { product: producto });
 
             return response.json({
                 status: 200,

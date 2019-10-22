@@ -18,8 +18,11 @@
 */
 
 const { Ignitor } = require('@adonisjs/ignitor')
+const { subscribe } = require('./broker')
 
 new Ignitor(require('@adonisjs/fold'))
   .appRoot(__dirname)
   .fireHttpServer()
   .catch(console.error)
+
+subscribe()
