@@ -1,6 +1,7 @@
 'use strict'
 
 const Marca = use('App/Models/Marca')
+const Database = use('Database')
 
 class MarcaController {
     async getAll({ response }) {
@@ -38,6 +39,37 @@ class MarcaController {
                 brand: marca
             })
         } catch(err) {
+            if (err.name === 'ModelNotFoundException') {
+                return response.json({
+                    status: 404,
+                    message: "Not found"
+                })
+            }
+        }
+    }
+
+    async getBrandByCategory({ request, response }) {
+        const idCategoria = request.params.idCategoria
+
+        try {
+            let rows = await Database
+                .raw("SELECT DISTINCT(t.marca_id) FROM categoria_producto cp, productos p, tiendas t WHERE cp.categoria_id = ? AND p.id = cp.producto_id AND t.id = p.tienda_id",
+                [idCategoria])
+            
+            let marcas = []
+
+            rows.map((row) => {
+                row.map((marca) => {
+                    if (marca.marca_id != undefined) {
+                        marcas.push(marca.marca_id);
+                    }
+                })
+            })
+            return response.json({
+                status: 200,
+                brands: marcas
+            })
+        } catch (err) {
             if (err.name === 'ModelNotFoundException') {
                 return response.json({
                     status: 404,

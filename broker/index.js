@@ -2,6 +2,7 @@
 
 require('dotenv').config();
 const amqplib = require('amqplib');
+const callback = require('./callbacks');
 
 const { MB_URL } = process.env;
 
@@ -10,6 +11,7 @@ let brokerConnection = null;
 const initBroker = (url) => new Promise(async (resolve, reject) => {
   try {
     const connection = await amqplib.connect(url);
+    console.log('Conectado a ' + MB_URL)
     resolve(connection);
   } catch (error) {
     console.warn(error);
@@ -53,12 +55,12 @@ const subscribe = async () => {
   }
 
   const subscriptions = [
-    { queue: 'brand-created', callback: jsonlog },
-    { queue: 'brand-updated', callback: jsonlog },
-    { queue: 'brand-deleted', callback: jsonlog },
-    { queue: 'store-created', callback: jsonlog },
-    { queue: 'store-updated', callback: jsonlog },
-    { queue: 'store-deleted', callback: jsonlog },
+    { queue: 'brand-created', callback: callback.brandCreated },
+    { queue: 'brand-updated', callback: callback.brandUpdated },
+    { queue: 'brand-deleted', callback: callback.storeDeleted },
+    { queue: 'store-created', callback: callback.storeCreated },
+    { queue: 'store-updated', callback: callback.storeUpdated },
+    { queue: 'store-deleted', callback: callback.storeDeleted },
   ];
 
   subscriptions.forEach(({ queue, callback }) => {

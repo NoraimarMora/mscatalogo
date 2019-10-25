@@ -8,6 +8,10 @@ class Categoria extends Model {
     productos () {
         return this.belongsToMany('App/Models/Producto')
     }
+
+    tiendas () {
+        return this.manyThrough('App/Models/Producto', 'tienda')
+    }
 }
 
 module.exports = Categoria
