@@ -49,7 +49,7 @@ class ProductoController {
                 reference: producto.reference,
                 price: producto.price,
                 description: producto.description,
-                image_url: producto.image_url,
+                image_url: producto.imagen_url,
                 customizable: producto.customizable,
                 store_id: producto.tienda_id,
                 active: producto.active,
@@ -112,7 +112,7 @@ class ProductoController {
                 reference: resp.reference,
                 price: resp.price,
                 description: resp.description,
-                image_url: resp.image_url,
+                image_url: resp.imagen_url,
                 customizable: resp.customizable,
                 store_id: resp.tienda_id,
                 active: resp.active,
@@ -223,7 +223,7 @@ class ProductoController {
                     reference: producto.reference,
                     price: producto.price,
                     description: producto.description,
-                    image_url: producto.image_url,
+                    image_url: producto.imagen_url,
                     customizable: producto.customizable,
                     store_id: producto.tienda_id,
                     active: producto.active,
@@ -300,7 +300,7 @@ class ProductoController {
                     reference: producto.reference,
                     price: producto.price,
                     description: producto.description,
-                    image_url: producto.image_url,
+                    image_url: producto.imagen_url,
                     customizable: producto.customizable,
                     store_id: producto.tienda_id,
                     active: producto.active,
@@ -378,7 +378,7 @@ class ProductoController {
                     reference: producto.reference,
                     price: producto.price,
                     description: producto.description,
-                    image_url: producto.image_url,
+                    image_url: producto.imagen_url,
                     customizable: producto.customizable,
                     store_id: producto.tienda_id,
                     active: producto.active,
@@ -459,7 +459,7 @@ class ProductoController {
                     reference: producto.reference,
                     price: producto.price,
                     description: producto.description,
-                    image_url: producto.image_url,
+                    image_url: producto.imagen_url,
                     customizable: producto.customizable,
                     store_id: producto.tienda_id,
                     active: producto.active,
@@ -536,7 +536,7 @@ class ProductoController {
                     reference: producto.reference,
                     price: producto.price,
                     description: producto.description,
-                    image_url: producto.image_url,
+                    image_url: producto.imagen_url,
                     customizable: producto.customizable,
                     store_id: producto.tienda_id,
                     active: producto.active,
@@ -595,7 +595,7 @@ class ProductoController {
             reference: newProducto.reference,
             price: newProducto.price,
             description: newProducto.description,
-            image_url: newProducto.image_url,
+            image_url: newProducto.imagen_url,
             customizable: newProducto.customizable,
             store_id: newProducto.tienda_id,
             active: newProducto.active,
@@ -621,7 +621,7 @@ class ProductoController {
             update.reference = productoU.reference
             update.price = productoU.price
             update.description = productoU.description
-            update.image_url = productoU.image_url
+            update.imagen_url = productoU.image_url
             update.customizable = productoU.customizable
             update.tienda_id = productoU.tienda_id
             update.active = productoU.active
@@ -634,7 +634,7 @@ class ProductoController {
                 reference: update.reference,
                 price: update.price,
                 description: update.description,
-                image_url: update.image_url,
+                image_url: update.imagen_url,
                 customizable: update.customizable,
                 store_id: update.tienda_id,
                 active: update.active,
@@ -669,7 +669,7 @@ class ProductoController {
                 reference: resp.reference,
                 price: resp.price,
                 description: resp.description,
-                image_url: resp.image_url,
+                image_url: resp.imagen_url,
                 customizable: resp.customizable,
                 store_id: resp.tienda_id,
                 active: resp.active,
